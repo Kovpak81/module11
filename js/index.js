@@ -23,14 +23,26 @@ let fruitsJSON = `[
 // преобразование JSON в объект JavaScript
 let fruits = JSON.parse(fruitsJSON);
 
+
+let colorFruits = ["fruit_violet", "fruit_green", "fruit_carmazin", "fruit_yellow", "fruit_lightbrown"];
+
 /*** ОТОБРАЖЕНИЕ ***/
 
 // отрисовка карточек
 const display = () => {
+  // fruitsList = ""; надо написать обнуление
+  fruitsList.innerHTML = "";
   // TODO: очищаем fruitsList от вложенных элементов,
   // чтобы заполнить актуальными данными из fruits
 
   for (let i = 0; i < fruits.length; i++) {
+    document.getElementById("tuti").insertAdjacentHTML("beforeend", `<li class=\"fruit__item ${colorFruits[i]}\"><div class=\"fruit__info\">
+    <div>index: ${[i]}</div>
+    <div>kind: ${fruits[i].kind}</div>
+    <div>color: ${fruits[i].color}</div>
+    <div>weight: ${fruits[i].weight}</div>
+    </div></li>`);
+
     // TODO: формируем новый элемент <li> при помощи document.createElement,
     // и добавляем в конец списка fruitsList при помощи document.appendChild
   }
@@ -45,23 +57,36 @@ display();
 const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
+let result = [];
+let sumArr;
 // перемешивание массива
 const shuffleFruits = () => {
-  let result = [];
+  
+  
 
   // ATTENTION: сейчас при клике вы запустите бесконечный цикл и браузер зависнет
   while (fruits.length > 0) {
+    sumArr = getRandomInt(1, fruits.length);
+  
+    result.push(...fruits[sumArr]);
+    fruits.splice(sumArr, 1);
+ 
+    return result;
+    
     // TODO: допишите функцию перемешивания массива
     //
     // Подсказка: находим случайный элемент из fruits, используя getRandomInt
     // вырезаем его из fruits и вставляем в result.
     // ex.: [1, 2, 3], [] => [1, 3], [2] => [3], [2, 1] => [], [2, 1, 3]
     // (массив fruits будет уменьшатся, а result заполняться)
+    
   }
 
-  fruits = result;
+   fruits = result;
+   return fruits;
 };
+
+
 
 shuffleButton.addEventListener('click', () => {
   shuffleFruits();
